@@ -61,18 +61,20 @@ def convert_md_to_docx(
             "pypandoc is required. Install with: pip install pypandoc_binary"
         ) from None
 
-    # Build extra args for Pandoc (reference doc for consistent styling)
-    extra_args = []
+    # Build extra args for Pandoc
+    # Resolve images (e.g. ![alt](flowchart.png)) relative to the .md file's directory
+    extra_args = [f"--resource-path={md_path.parent}"]
     if reference_doc is not None:
         extra_args.extend(["--reference-doc", str(reference_doc)])
 
     # Convert: markdown+hard_line_breaks improves line breaks in DOCX
+    # Pass a list (never None); pypandoc extends internal args with extra_args.
     pypandoc.convert_file(
         str(md_path),
         "docx",
         outputfile=str(docx_path),
         format="markdown+hard_line_breaks",
-        extra_args=extra_args if extra_args else None,
+        extra_args=extra_args,
     )
 
 

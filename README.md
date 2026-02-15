@@ -156,6 +156,28 @@ This is useful in automation pipelines or when an AI agent runs Python code and 
 
 ---
 
+## Test folder
+
+The **`test/`** folder contains sample Markdown and a flowchart image so you can try the converter right away:
+
+- **`test/sample.md`** – Sample document with headings, lists, code blocks, tables, an embedded flowchart image, and a short explanation of how md2docx works.
+- **`test/flowchart.png`** – Image used in `sample.md` (images are resolved relative to the `.md` file’s directory).
+- **`test/README.md`** – Quick commands to run the converter on this folder.
+
+From the project root:
+
+```bash
+python convert.py --file test/sample.md
+# Creates test/sample.docx
+
+python convert.py --folder test
+# Converts every .md in test/ to .docx
+```
+
+Generated `.docx` files in `test/` are ignored by git (see `.gitignore`).
+
+---
+
 ## Project structure
 
 ```
@@ -163,7 +185,11 @@ md2docx/
 ├── convert.py          # CLI and conversion logic (single file + folder)
 ├── requirements.txt    # pypandoc_binary
 ├── README.md           # This file
-└── LICENSE             # MIT
+├── LICENSE             # MIT
+└── test/               # Sample Markdown and assets to try the converter
+    ├── sample.md       # Comprehensive test document (flowchart, code, tables)
+    ├── flowchart.png   # Image embedded in sample.md
+    └── README.md       # How to run the converter on this folder
 ```
 
 ---
