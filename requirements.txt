@@ -1,0 +1,2 @@
+# MD to DOCX converter – uses Pandoc under the hood (bundled, no separate install).
+pypandoc_binary>=1.16
