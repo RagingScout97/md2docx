@@ -4,6 +4,13 @@ Convert Markdown (`.md`) files to Word documents (`.docx`) from the command line
 
 **Repository:** [github.com/RagingScout97/md2docx](https://github.com/RagingScout97/md2docx)
 
+```mermaid
+flowchart LR
+  MD[".md files"] --> Converter[convert.py]
+  Converter --> Pandoc[Pandoc]
+  Pandoc --> DOCX[".docx files"]
+```
+
 ---
 
 ## What it does
@@ -115,7 +122,41 @@ pandoc -o reference.docx --print-default-data-file reference.docx
 
 ---
 
-## How it works (code flow)
+## How it works
+
+### Flow diagram
+
+```mermaid
+flowchart LR
+  subgraph input [Input]
+    F[Single file]
+    D[Folder]
+  end
+  subgraph script [convert.py]
+    CLI[CLI parser]
+    Single[run_single_file]
+    Folder[run_folder]
+    Conv[convert_md_to_docx]
+  end
+  subgraph engine [Engine]
+    Pandoc[pypandoc / Pandoc]
+  end
+  subgraph output [Output]
+    O1[One DOCX]
+    O2[Many DOCXs]
+  end
+  F --> CLI
+  D --> CLI
+  CLI --> Single
+  CLI --> Folder
+  Single --> Conv
+  Folder --> Conv
+  Conv --> Pandoc
+  Pandoc --> O1
+  Pandoc --> O2
+```
+
+### Steps
 
 1. **CLI** – `convert.py` uses `argparse` to handle `--file` or `--folder` (and options like `--output`, `--output-dir`, `--recursive`, `--reference-doc`).
 2. **Single-file path** – If `--file` is set, the script resolves the output path (from `--output` or from the input path), then calls `convert_md_to_docx()` once.
