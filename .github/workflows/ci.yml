@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run converter help
+        run: python convert.py --help
+
+      - name: Quick conversion test
+        run: |
+          echo "# Test" > test.md
+          python convert.py --file test.md -o test.docx
+          test -f test.docx && echo "Conversion OK"
